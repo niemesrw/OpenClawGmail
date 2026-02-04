@@ -8,6 +8,24 @@ metadata: {"author": "openclaw", "version": "2.0.0", "openclaw": {"requires": {"
 
 Gmail and Google Calendar access using Google's official Python client. Uses the OpenClaw community OAuth app - no Google Cloud Console setup required.
 
+## Security Features
+
+### Prompt Injection Defenses
+
+By default, all email content is sanitized using **spotlighting defenses** to protect against prompt injection attacks. Email content is untrusted user input that could contain adversarial prompts designed to manipulate LLMs.
+
+**Defense Strategy**: Datamarking with random delimiters
+- Wraps untrusted content with semantic boundaries
+- Uses cryptographically random markers (64 bits of entropy)
+- Makes it clear to LLMs that content should not be treated as instructions
+
+**Bypass Option**: Use the `--raw` flag with `list` or `read` commands when you need to see unsanitized content.
+
+**References**:
+- [Spotlighting (Microsoft Research)](https://arxiv.org/abs/2403.14720)
+- [Prompt Injection Defenses - Simon Willison](https://simonwillison.net/2023/Apr/14/worst-that-can-happen/)
+- [OWASP LLM Top 10 - Prompt Injection](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
+
 ## Quick Setup
 
 ```bash
@@ -30,8 +48,14 @@ Opens browser for Google consent. Token saved locally on your machine.
 # List unread emails
 cd {baseDir} && .venv/bin/python skill.py list --query "is:unread" --max 10
 
+# List unread emails with raw content (bypassing prompt injection defenses)
+cd {baseDir} && .venv/bin/python skill.py list --query "is:unread" --max 10 --raw
+
 # Read specific email
 cd {baseDir} && .venv/bin/python skill.py read <message_id>
+
+# Read specific email with raw content (bypassing prompt injection defenses)
+cd {baseDir} && .venv/bin/python skill.py read <message_id> --raw
 
 # Send email
 cd {baseDir} && .venv/bin/python skill.py send --to "recipient@example.com" --subject "Hello" --body "Message body"
