@@ -57,6 +57,7 @@ def test_sanitize_randomness():
     marker2 = re.search(r'\[DATAMARKER-([0-9a-f]{16})\]', result2)
     
     assert marker1 and marker2, "Both results should have markers"
+    # Note: With 64 bits of entropy, collision probability is ~2^-64, negligible for practical purposes
     assert marker1.group(1) != marker2.group(1), "Markers should be different (random)"
     
     print("✓ test_sanitize_randomness passed")
