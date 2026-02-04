@@ -1,0 +1,13 @@
+# OAuth credentials and tokens (keep local, never commit)
+credentials.json
+community_oauth.json
+token.json
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log

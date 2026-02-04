@@ -1,0 +1,7 @@
+# Don't publish user credentials or generated files
+credentials.json
+community_oauth.json
+token.json
+.venv/
+__pycache__/
+*.pyc
